@@ -83,7 +83,7 @@ public class Robot extends IterativeRobot {
     int forwardDistance = 30000;
     int turnDistance = 1000;
     public void autonomousInit() {
-    	
+    	rightMotorEncoder.reset();
     }
     public void autonomousPeriodicStateMachine() {
     	switch(state) {
