@@ -73,6 +73,42 @@ public class Robot extends IterativeRobot {
     	
     	
     }
+    
+    final static int FORWARD = 0;
+    final static int TURN = 1;
+    final static int FINISHED = 2;
+    final static int DONE = 3;
+    int state = FORWARD;
+    double speed = 0.5;
+    int forwardDistance = 30000;
+    int turnDistance = 1000;
+    public void autonomousInit() {
+    	
+    }
+    public void autonomousPeriodicStateMachine() {
+    	switch(state) {
+    	case FORWARD:
+    		setDrivePower(speed, speed);
+    		if (rightMotorEncoder.get() < forwardDistance) {
+    			rightMotorEncoder.reset();
+    			state = TURN;
+    		}
+    		break;
+    	case TURN:
+    		setDrivePower(-speed, speed);
+    		if (rightMotorEncoder.get() < turnDistance) state = FINISHED;
+    		break;
+    	case FINISHED:
+    		setDrivePower(0,0);
+    		state = DONE;
+    		break;
+    	default:
+    	}
+    }
+    public void setDrivePower(double left, double right) {
+    	leftMotor.set(left);
+    	rightMotor.set(right);
+    }
 
     /**
      * This function is called periodically during operator control
