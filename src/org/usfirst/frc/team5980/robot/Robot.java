@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TalonSRX;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //test comment for GitHub - Anton L
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -51,10 +52,15 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
     	//setting variables to Encoder revolution count
-    	leftMotorCount = leftMotorEncoder.get();
-    	rightMotorCount = rightMotorEncoder.get();
+    	leftMotorCount = Math.abs(leftMotorEncoder.get());
+    	rightMotorCount = Math.abs(rightMotorEncoder.get());
+    	
+    	
+    	
+    	SmartDashboard.putNumber("Left Encoder: ", leftMotorCount);
+    	SmartDashboard.putNumber("Right Encoder: ", rightMotorCount);
     	//setting left motors' power based on whether or not it is over Outer Works
-    	if (leftMotorCount < 37440) {
+    	if (leftMotorCount < 3000) { //37440 is correct count number
     		leftMotor.set(-forward);
     	}
     	else {
@@ -62,7 +68,7 @@ public class Robot extends IterativeRobot {
     		
     	}
     	//setting right motors' power based on whether or not it is over Outer Works
-    	if (rightMotorCount < 37440) {
+    	if (rightMotorCount < 3000) {
     		rightMotor.set(forward);
     	}
     	else {
@@ -81,6 +87,7 @@ public class Robot extends IterativeRobot {
     	//setting motors' power based upon joystick values
         leftMotor.set(-joystickXbox.getRawAxis(1));
         rightMotor.set(joystickXbox.getRawAxis(5));
+       
        
         
     }
