@@ -31,8 +31,8 @@ public class Robot extends IterativeRobot {
 	int rightMotorCount = 0;
 
 	
-	static double forwardSpeed = 0.5;
-	static double rotateSpeed = 0.2;
+	static double forwardSpeed = -0.5;
+	static double rotateSpeed = -0.2;
 
     public void robotInit() {
     	//initializing hardware: Speed Controllers, Joysticks, Encoders
