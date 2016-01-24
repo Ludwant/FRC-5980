@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //test comment for GitHub - Anton L
 //test comment for GitHub - Stevie T
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -22,7 +23,7 @@ public class Robot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-	//test comment for master 
+
 	//creating new hardware objects
 	TalonSRX leftMotor;
 	TalonSRX rightMotor;
