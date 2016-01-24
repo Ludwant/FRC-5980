@@ -26,21 +26,22 @@ public class Robot extends IterativeRobot {
 	Joystick joystickXbox;
 	Encoder leftMotorEncoder;
 	Encoder rightMotorEncoder;
+	boolean turnNow = false;
 	int leftMotorCount = 0;
 	int rightMotorCount = 0;
 
 	
-	static double forward = 0.5;
+	static double forwardSpeed = 0.5;
+	static double rotateSpeed = 0.2;
 
     public void robotInit() {
     	//initializing hardware: Speed Controllers, Joysticks, Encoders
     	leftMotor = new TalonSRX(0);
-    	
     	rightMotor = new TalonSRX(2);
-  
     	joystickXbox = new Joystick(0);
     	leftMotorEncoder = new Encoder(0,1, false, Encoder.EncodingType.k4X);
     	rightMotorEncoder = new Encoder(2,3,false, Encoder.EncodingType.k4X);
+    	leftMotor.setInverted(true);
     	
     	
     }
@@ -50,26 +51,25 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
     	//setting variables to Encoder revolution count
-    	leftMotorCount = leftMotorEncoder.get();
-    	rightMotorCount = rightMotorEncoder.get();
+    	leftMotorCount = Math.abs(leftMotorEncoder.get());
+    	rightMotorCount = Math.abs(rightMotorEncoder.get());
     	//setting left motors' power based on whether or not it is over Outer Works
-    	if (leftMotorCount < 37440) {
-    		leftMotor.set(-forward);
+    	if (leftMotorCount < 3000 && rightMotorCount < 3000) { //37440 is actual # of counts
+    		setDrivePower(forwardSpeed, forwardSpeed);
     	}
     	else {
-    		leftMotor.set(0);
-    		
-    	}
-    	//setting right motors' power based on whether or not it is over Outer Works
-    	if (rightMotorCount < 37440) {
-    		rightMotor.set(forward);
-    	}
-    	else {
-    		rightMotor.set(0);
-    		
+    		setDrivePower(0,0);
+    		turnNow = true;
     	}
     	
-    	
+    	if(turnNow == true) {
+    		if(leftMotorCount < 3500 && rightMotorCount < 3500) {
+    			setDrivePower(rotateSpeed, -rotateSpeed);
+    		}
+    		else {
+    			setDrivePower(0,0);
+    		}
+    	}
     	
     }
     
@@ -114,7 +114,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	//setting motors' power based upon joystick values
-        leftMotor.set(-joystickXbox.getRawAxis(1));
+        leftMotor.set(joystickXbox.getRawAxis(1));
         rightMotor.set(joystickXbox.getRawAxis(5));
        
         
@@ -126,6 +126,7 @@ public class Robot extends IterativeRobot {
     public void testPeriodic() {
     
     }
+    
     
   
     
