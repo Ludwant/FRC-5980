@@ -25,6 +25,7 @@ public class Robot extends IterativeRobot {
 	TalonSRX rightBackMotor;
 	TalonSRX rightFrontMotor;
 	TalonSRX leftFrontMotor;
+	TalonSRX ballControlMotor;
 	Joystick joystickXbox;
 	Encoder leftMotorEncoder;
 	Encoder rightMotorEncoder;
@@ -35,6 +36,7 @@ public class Robot extends IterativeRobot {
 	
 	static double forwardSpeed = -0.5;
 	static double rotateSpeed = -0.2;
+	static double ballControlSpeed = -0.7;
 
     public void robotInit() {
     	//initializing hardware: Speed Controllers, Joysticks, Encoders
@@ -42,6 +44,7 @@ public class Robot extends IterativeRobot {
     	leftFrontMotor = new TalonSRX(1);
     	rightBackMotor = new TalonSRX(2);
     	rightFrontMotor = new TalonSRX(3);
+    	ballControlMotor = new TalonSRX(4);
     	joystickXbox = new Joystick(0);
     	leftMotorEncoder = new Encoder(0,1, false, Encoder.EncodingType.k4X);
     	rightMotorEncoder = new Encoder(2,3,false, Encoder.EncodingType.k4X);
@@ -126,6 +129,12 @@ public class Robot extends IterativeRobot {
     	leftFrontMotor.set(joystickXbox.getRawAxis(1));
         rightBackMotor.set(joystickXbox.getRawAxis(5));
         rightFrontMotor.set(joystickXbox.getRawAxis(5));
+        if(joystickXbox.getRawAxis(2) > 0.2) {
+        	ballControlMotor.set(ballControlSpeed);
+        }
+        else if(joystickXbox.getRawAxis(2) < -0.2) {
+        	ballControlMotor.set(-ballControlSpeed);
+        }
        
         
     }
