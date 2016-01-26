@@ -21,8 +21,10 @@ public class Robot extends IterativeRobot {
      */
 
 	//creating new hardware objects
-	TalonSRX leftMotor;
-	TalonSRX rightMotor;
+	TalonSRX leftBackMotor;
+	TalonSRX rightBackMotor;
+	TalonSRX rightFrontMotor;
+	TalonSRX leftFrontMotor;
 	Joystick joystickXbox;
 	Encoder leftMotorEncoder;
 	Encoder rightMotorEncoder;
@@ -36,12 +38,15 @@ public class Robot extends IterativeRobot {
 
     public void robotInit() {
     	//initializing hardware: Speed Controllers, Joysticks, Encoders
-    	leftMotor = new TalonSRX(0);
-    	rightMotor = new TalonSRX(2);
+    	leftBackMotor = new TalonSRX(0);
+    	leftFrontMotor = new TalonSRX(1);
+    	rightBackMotor = new TalonSRX(2);
+    	rightFrontMotor = new TalonSRX(3);
     	joystickXbox = new Joystick(0);
     	leftMotorEncoder = new Encoder(0,1, false, Encoder.EncodingType.k4X);
     	rightMotorEncoder = new Encoder(2,3,false, Encoder.EncodingType.k4X);
-    	leftMotor.setInverted(true);
+    	leftBackMotor.setInverted(true);
+    	leftFrontMotor.setInverted(true);
     	
     	
     }
@@ -105,8 +110,10 @@ public class Robot extends IterativeRobot {
     	}
     }
     public void setDrivePower(double left, double right) {
-    	leftMotor.set(left);
-    	rightMotor.set(right);
+    	leftBackMotor.set(left);
+    	rightBackMotor.set(right);
+    	leftFrontMotor.set(left);
+    	rightFrontMotor.set(right);
     }
 
     /**
@@ -114,8 +121,11 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
     	//setting motors' power based upon joystick values
-        leftMotor.set(joystickXbox.getRawAxis(1));
-        rightMotor.set(joystickXbox.getRawAxis(5));
+        
+    	leftBackMotor.set(joystickXbox.getRawAxis(1));
+    	leftFrontMotor.set(joystickXbox.getRawAxis(1));
+        rightBackMotor.set(joystickXbox.getRawAxis(5));
+        rightFrontMotor.set(joystickXbox.getRawAxis(5));
        
         
     }
