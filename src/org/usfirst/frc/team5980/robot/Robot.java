@@ -36,7 +36,7 @@ public class Robot extends IterativeRobot {
 	
 	static double forwardSpeed = -0.5;
 	static double rotateSpeed = -0.2;
-	static double ballControlSpeed = -0.7;
+	static double ballControlSpeed = -0.9;
 
     public void robotInit() {
     	//initializing hardware: Speed Controllers, Joysticks, Encoders
@@ -57,6 +57,11 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during autonomous
      */
+     
+    public void autonomousInit() {
+    	rightMotorEncoder.reset();
+    	leftMotorEncoder.reset();
+    }
     public void autonomousPeriodic() {
     	//setting variables to Encoder revolution count
     	leftMotorCount = Math.abs(leftMotorEncoder.get());
@@ -89,9 +94,7 @@ public class Robot extends IterativeRobot {
     double speed = 0.5;
     int forwardDistance = 30000;
     int turnDistance = 1000;
-    public void autonomousInit() {
-    	rightMotorEncoder.reset();
-    }
+    
     public void autonomousPeriodicStateMachine() {
     	switch(state) {
     	case FORWARD:
@@ -129,11 +132,14 @@ public class Robot extends IterativeRobot {
     	leftFrontMotor.set(joystickXbox.getRawAxis(1));
         rightBackMotor.set(joystickXbox.getRawAxis(5));
         rightFrontMotor.set(joystickXbox.getRawAxis(5));
-        if(joystickXbox.getRawAxis(2) > 0.2) {
+        if(joystickXbox.getRawAxis(4) > 0.2) {
         	ballControlMotor.set(ballControlSpeed);
         }
-        else if(joystickXbox.getRawAxis(2) < -0.2) {
+        else if(joystickXbox.getRawAxis(4) < -0.2) {
         	ballControlMotor.set(-ballControlSpeed);
+        }
+        else {
+        	ballControlMotor.set(0);
         }
        
         
